@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -12,65 +13,50 @@ namespace SGI_CAFETERIALOSTRESGOLPES
 {
     public partial class frmLogin : Form
     {
-        List<string> Usuarios = new List<string>()
-        {
-            "Propietario", "Gerente", "Cocinero"
-        };
-
-        frmMenuPrincipal MP = new frmMenuPrincipal();
+        SplashMenu splash = new SplashMenu();
 
         public frmLogin()
         {
             InitializeComponent();
         }
 
-        public bool ValidacionCasillaVacia()
+        private void frmLogin_Load(object sender, EventArgs e)
         {
-            if (txtNombre.Text != "" && txtContrasena.Text != "")
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public bool ValidacionNombreContrasena()
-        {
-            if ((txtNombre.Text != Usuarios[0] && txtNombre.Text != Usuarios[1] && txtNombre.Text != Usuarios[2]) && txtContrasena.Text != txtNombre.Text)
-            {
-                return true;
-            }
-
-            return false;
+            txtNombre.Text = "admin";
+            txtContrasena.Text = "HASH_SHA256_AQUI";
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
-            if (!ValidacionCasillaVacia())
+            if ((txtNombre.Text == "") || (txtContrasena.Text == ""))
             {
-                MessageBox.Show("No puedes dejar campos vacios");
+                MessageBox.Show("No debe dejar Campos o Casillas Vacias");
+                txtNombre.Focus();
                 return;
             }
 
-            if (ValidacionNombreContrasena())
+            SqlConexionManager.conexion = new SqlConnection();
+            SqlConexionManager.conexion.ConnectionString = SqlConexionManager.cnn;
+            SqlConexionManager.Sql = $"SELECT * FROM Usuarios WHERE NombreUsuario = '{txtNombre.Text}' AND Contrasena = '{txtContrasena.Text}'";
+            SqlConexionManager.conexion.Open();
+            SqlConexionManager.Adaptar = new SqlDataAdapter(SqlConexionManager.Sql, SqlConexionManager.conexion);
+            SqlConexionManager.Almacen = new DataSet();
+            SqlConexionManager.conexion.Close();
+            SqlConexionManager.Adaptar.Fill(SqlConexionManager.Almacen, "Usuarios");
+            SqlConexionManager.Resultado = SqlConexionManager.Almacen.Tables[0].Rows.Count;
+
+            if (SqlConexionManager.Resultado <= 0)
             {
-                MessageBox.Show("Usuario y contraseña incorrectos");
+                MessageBox.Show("Usuario/contraseña incorrectos :(");
+                txtNombre.Clear();
+                txtContrasena.Clear();
+                txtNombre.Select();
+                txtNombre.Focus();
                 return;
             }
 
-            if (txtNombre.Text != Usuarios[0] && txtNombre.Text != Usuarios[1] && txtNombre.Text != Usuarios[2])
-            {
-                MessageBox.Show("El Usuario no existe");
-                return;
-            }
-
-            if (txtContrasena.Text != txtNombre.Text)
-            {
-                MessageBox.Show("La contraseña es incorrecta");
-                return;
-            }
-
-            MP.Show();
+            splash.Show();
+            Hide();
         }
     }
 }

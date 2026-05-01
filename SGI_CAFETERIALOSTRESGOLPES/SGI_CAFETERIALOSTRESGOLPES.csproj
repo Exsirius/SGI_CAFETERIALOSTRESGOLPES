@@ -120,8 +120,23 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SGI_CafeteriaLosTresGolpesDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SGI_CafeteriaLosTresGolpesDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="SplashMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SplashMenu.Designer.cs">
+      <DependentUpon>SplashMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SqlConexionManager.cs" />
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMenuPrincipal.resx">
+      <DependentUpon>frmMenuPrincipal.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -132,6 +147,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="SplashMenu.resx">
+      <DependentUpon>SplashMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -141,6 +159,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="SGI_CafeteriaLosTresGolpesDataSet.xsc">
+      <DependentUpon>SGI_CafeteriaLosTresGolpesDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="SGI_CafeteriaLosTresGolpesDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SGI_CafeteriaLosTresGolpesDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SGI_CafeteriaLosTresGolpesDataSet.xss">
+      <DependentUpon>SGI_CafeteriaLosTresGolpesDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
